@@ -1,4 +1,5 @@
 import React from 'react';
+import SelectMember from '../SelectMember';
 import './styles.scss';
 
 class App extends React.Component {
@@ -7,6 +8,7 @@ class App extends React.Component {
         this.state = {
             adalabMembers: []
         };
+        this.handleChangeSelect = this.handleChangeSelect.bind(this);
     }
 
     componentDidMount() {
@@ -23,14 +25,25 @@ class App extends React.Component {
             });
     }
 
+    handleChangeSelect(event) {
+        const { value } = event.currentTarget;
+        const { adalabMembers } = this.state;
+        
+        const member = adalabMembers.find(user => user.login === value);
+        
+    }
+
     render() {
         const { adalabMembers } = this.state;
         return (
             <div className="App">
-                <select name="" id="adalab-adalabUsers">
-                    <option value="">Selecciona una usuaria</option>
-                    {adalabMembers.map(user => <option value={user.login}>{user.login}</option>)}
-                </select>
+                <SelectMember
+                    adalabMembers={adalabMembers}
+                    handleChangeSelect={this.handleChangeSelect}
+                />
+                <section>
+                    {this.paintMember()}
+                </section>
             </div>
         );
     }
